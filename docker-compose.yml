@@ -1,0 +1,31 @@
+version: '3'
+services:
+  server1:
+    build: .
+    image: server
+    ports:
+     - "5001:5000"
+    volumes:
+     - .:/server
+  server2:
+    build: .
+    image: server
+    ports:
+     - "5002:5000"
+    volumes:
+     - .:/server
+  server3:
+    build: .
+    image: server
+    ports:
+     - "5003:5000"
+    volumes:
+     - .:/server
+  server4:
+    build: .
+    image: server
+    ports:
+     - "5004:5000"
+    volumes:
+     - .:/server
+
