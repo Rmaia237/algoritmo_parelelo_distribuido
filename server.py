@@ -1,6 +1,6 @@
-from flask import Flask, request
 import socket
-import requests
+
+from flask import Flask, request
 
 ip = socket.gethostbyname(socket.gethostname())
 app = Flask(__name__)
@@ -31,9 +31,12 @@ def escrever_valores():
 
 def obter_relogio():
     global relogio
+    qs = ""
     if not relogio:
         relogio = {"id2": "0", "id3": "0", "id4": "0", "id5": "0", "id6": "0"}
-    return relogio
+    for chave, valor in sorted(relogio.iteritems()):
+        qs += "&{}={}".format(chave, valor)
+    return qs
 
 
 def atualizar_relogio(query_string):
@@ -44,6 +47,10 @@ def atualizar_relogio(query_string):
         if variavel.startswith("id"):
             relogio[variavel.split("=")[0]] = variavel.split("=")[1]
     return relogio
+
+
+def envia(id_no, dado):
+    qs = obter_relogio()
 
 
 if __name__ == '__main__':
