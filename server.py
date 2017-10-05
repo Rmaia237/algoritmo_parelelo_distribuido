@@ -6,7 +6,7 @@ from flask import Flask, request
 ip = socket.gethostbyname(socket.gethostname())
 app = Flask(__name__)
 
-url = "https://172.38.0.{}:5000?"
+url = "http://172.38.0.{}:5000?"
 
 relogio = {}
 
@@ -52,10 +52,14 @@ def atualizar_relogio(query_string):
 
 
 def envia(id_no, acao):
+    # TODO melhorar mensagem de retorno
     qs = obter_relogio()
-    retorno = requests.get(url.format(id_no) + "msg=" + acao + qs)
-    if retorno:
-        print("this is ok")
+    try:
+        retorno = requests.get(url.format(id_no) + "msg=" + acao + qs, timeout=5)
+        msg = "this is ok: {}".format(retorno)
+    except requests.RequestException as e:
+        msg = "not ok: {}".format(e)
+    return msg
 
 
 if __name__ == '__main__':

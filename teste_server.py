@@ -1,5 +1,7 @@
 import unittest
 
+from mock import patch
+
 import server
 
 
@@ -24,6 +26,25 @@ class TesteServer(unittest.TestCase):
         server.relogio = {}
         valor_esperado = "&id2=0&id3=0&id4=0&id5=0"
         self.assertEqual(server.obter_relogio(), valor_esperado)
+
+    @patch("requests.get")
+    def teste_envia_com_sucesso(self, mock_get):
+        mock_get.return_value = "teste_retorno"
+        id_no = "1"
+        acao = "w3"
+        parametro_esperado = "http://172.38.0.1:5000?msg=w3&id2=0&id3=0&id4=0&id5=0"
+        retorno_esperado = "this is ok: teste_retorno"
+        retorno = server.envia(id_no, acao)
+        mock_get.assert_called_with(parametro_esperado, timeout=5)
+        self.assertEqual(retorno_esperado, retorno)
+
+    def teste_envia_com_falha(self):
+        # TODO melhorar mensagem de retorno
+        id_no = "1"
+        acao = "w3"
+        retorno_esperado = "not ok:"
+        retorno = server.envia(id_no, acao)
+        self.assertIn(retorno_esperado, retorno)
 
 
 if __name__ == '__main__':
