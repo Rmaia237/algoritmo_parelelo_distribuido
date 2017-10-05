@@ -1,10 +1,12 @@
 import socket
 
+import requests
 from flask import Flask, request
 
 ip = socket.gethostbyname(socket.gethostname())
 app = Flask(__name__)
 
+url = "https://172.38.0.{}:5000?"
 
 relogio = {}
 
@@ -33,8 +35,8 @@ def obter_relogio():
     global relogio
     qs = ""
     if not relogio:
-        relogio = {"id2": "0", "id3": "0", "id4": "0", "id5": "0", "id6": "0"}
-    for chave, valor in sorted(relogio.iteritems()):
+        relogio = {"id2": "0", "id3": "0", "id4": "0", "id5": "0"}
+    for chave, valor in sorted(relogio.items()):
         qs += "&{}={}".format(chave, valor)
     return qs
 
@@ -49,8 +51,11 @@ def atualizar_relogio(query_string):
     return relogio
 
 
-def envia(id_no, dado):
+def envia(id_no, acao):
     qs = obter_relogio()
+    retorno = requests.get(url.format(id_no) + "msg=" + acao + qs)
+    if retorno:
+        print("this is ok")
 
 
 if __name__ == '__main__':
