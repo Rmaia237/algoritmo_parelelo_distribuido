@@ -11,5 +11,5 @@ RUN pip install Flask
 RUN pip install --user requests
 
 ENTRYPOINT ["python"]
-CMD ["server.py"]
+CMD ["start.py"]
 
