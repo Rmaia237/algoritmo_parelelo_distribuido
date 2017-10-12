@@ -3,13 +3,15 @@ services:
   server1:
     build: .
     image: server
+    container_name: server1
     ports:
      - "5001:5000"
-    volumes:
-     - .:/server
+    #volumes:
+    # - .:/server
   server2:
     build: .
     image: server
+    container_name: server2
     ports:
      - "5002:5000"
     volumes:
@@ -17,6 +19,7 @@ services:
   server3:
     build: .
     image: server
+    container_name: server3
     ports:
      - "5003:5000"
     volumes:
@@ -24,6 +27,7 @@ services:
   server4:
     build: .
     image: server
+    container_name: server4
     ports:
      - "5004:5000"
     volumes:

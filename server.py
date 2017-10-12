@@ -8,21 +8,21 @@ class Server(object):
         self.ip = socket.gethostbyname(socket.gethostname())
         self.relogio = {}
         # TODO pegar ip de forma dinamica :(
-        self.url = "http://172.38.0.{}:5000?"
-
-    def obter_relogio(self):
-        qs = ""
-        if not self.relogio:
-            self.relogio = {"id2": "0", "id3": "0", "id4": "0", "id5": "0"}
-        for chave, valor in sorted(self.relogio.items()):
-            qs += "&{}={}".format(chave, valor)
-        return qs
+        self.url = "http://server{}:5000?"
 
     def atualizar_relogio(self, query_string):
         variaveis = str(query_string).split("&")
         for variavel in variaveis:
             if variavel.startswith("id"):
                 self.relogio[variavel.split("=")[0]] = variavel.split("=")[1]
+
+    def obter_relogio(self):
+        qs = ""
+        if not self.relogio:
+            self.relogio = {"id1": "0", "id2": "0", "id3": "0", "id4": "0"}
+        for chave, valor in sorted(self.relogio.items()):
+            qs += "&{}={}".format(chave, valor)
+        return qs
 
     def envia_acao(self, id_no, acao):
         # TODO melhorar mensagem de retorno

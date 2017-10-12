@@ -10,24 +10,24 @@ class TesteServer(unittest.TestCase):
         self.server = Server()
 
     def test_atualizar_relogio(self):
-        qs = "acao=teste_acao&id2=3&id3=4&id4=5&id5=6"
-        retorno = self.server.atualizar_relogio(qs)
+        qs = "acao=teste_acao&id1=2&id2=3&id3=4&id4=5"
+        self.server.atualizar_relogio(qs)
         tipo_esperado = dict
-        valor_esperado = {"id3": "4", "id4": "5", "id5": "6", "id2": "3"}
-        self.assertEqual(type(retorno), tipo_esperado)
-        self.assertEqual(retorno, valor_esperado)
+        valor_esperado = {"id1": "2", "id2": "3", "id3": "4", "id4": "5"}
+        self.assertEqual(type(self.server.relogio), tipo_esperado)
+        self.assertEqual(self.server.relogio, valor_esperado)
 
     def teste_obter_relogio(self):
-        qs = "acao=teste_msg&id2=3&id3=4&id4=5&id5=6"
+        qs = "acao=teste_msg&id1=2&id2=3&id3=4&id4=5"
         self.server.atualizar_relogio(qs)
-        relogio_esperado = {"id2": "3", "id3": "4", "id4": "5", "id5": "6"}
-        valor_esperado = "&id2=3&id3=4&id4=5&id5=6"
+        relogio_esperado = {"id1": "2", "id2": "3", "id3": "4", "id4": "5"}
+        valor_esperado = "&id1=2&id2=3&id3=4&id4=5"
         self.assertEqual(self.server.relogio, relogio_esperado)
         self.assertEqual(self.server.obter_relogio(), valor_esperado)
 
     def teste_obter_relogio_vazio(self):
         self.server.relogio = {}
-        valor_esperado = "&id2=0&id3=0&id4=0&id5=0"
+        valor_esperado = "&id1=0&id2=0&id3=0&id4=0"
         self.assertEqual(self.server.obter_relogio(), valor_esperado)
 
     @patch("requests.get")
@@ -36,7 +36,7 @@ class TesteServer(unittest.TestCase):
         self.server.relogio = {}
         id_no = "1"
         acao = "w3"
-        parametro_esperado = "http://172.38.0.1:5000?acao=w3&id2=0&id3=0&id4=0&id5=0"
+        parametro_esperado = "http://server1:5000?acao=w3&id1=0&id2=0&id3=0&id4=0"
         retorno_esperado = "this is ok: teste_retorno"
         retorno = self.server.envia_acao(id_no, acao)
         mock_get.assert_called_with(parametro_esperado, timeout=1)
