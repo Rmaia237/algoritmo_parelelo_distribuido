@@ -7,7 +7,6 @@ class Server(object):
     def __init__(self):
         self.ip = socket.gethostbyname(socket.gethostname())
         self.relogio = {}
-        # TODO pegar ip de forma dinamica :(
         self.url = "http://server{}:5000?"
 
     def atualizar_relogio(self, query_string):
@@ -36,6 +35,7 @@ class Server(object):
 
     # TODO def incrementa_relogio_interno():
     def incrementa_relogio_interno(self):
+
         pass
 
     # TODO def recebe_acao():

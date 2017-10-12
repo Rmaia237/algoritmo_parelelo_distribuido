@@ -5,31 +5,38 @@ services:
     image: server
     container_name: server1
     ports:
-     - "5001:5000"
+      - "5001:5000"
+    environment:
+      - ID=1
     volumes:
-     - .:/server
+      - .:/server
   server2:
     build: .
     image: server
     container_name: server2
     ports:
-     - "5002:5000"
+      - "5002:5000"
+    environment:
+      - ID=2
     volumes:
-     - .:/server
+      - .:/server
   server3:
     build: .
     image: server
     container_name: server3
     ports:
-     - "5003:5000"
+      - "5003:5000"
+    environment:
+      - ID=3
     volumes:
-     - .:/server
+      - .:/server
   server4:
     build: .
     image: server
     container_name: server4
     ports:
-     - "5004:5000"
+      - "5004:5000"
+    environment:
+      - ID=4
     volumes:
-     - .:/server
-
+      - .:/server
