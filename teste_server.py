@@ -1,4 +1,5 @@
 import unittest
+from os import environ
 
 from mock import patch
 
@@ -8,6 +9,7 @@ from server import Server
 class TesteServer(unittest.TestCase):
     def setUp(self):
         self.id_no = 1
+        environ["NUM_SERVERS"] = "4"
         self.server = Server()
         self.server.id = self.id_no
 

@@ -1,5 +1,6 @@
 import socket
 from os import getenv
+
 import requests
 
 
@@ -15,7 +16,7 @@ class Server(object):
         if self.num_servers:
             vetor = {}
             for i in range(int(self.num_servers)):
-                vetor["id{}".format(i)] = 0
+                vetor["id{}".format(i + 1)] = 0
             return vetor
         else:
             return {"id1": 0, "id2": 0, "id3": 0, "id4": 0}
@@ -45,7 +46,6 @@ class Server(object):
             msg = "not ok: {}".format(e)
         return msg
 
-    # TODO def incrementa_relogio_interno():
     def incrementa_relogio_interno(self):
         for relogio, valor in self.vetor_relogios.items():
             if int(str(relogio).replace("id", "")) == self.id:
