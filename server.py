@@ -1,11 +1,12 @@
 import socket
-
+from os import getenv
 import requests
 
 
 class Server(object):
     def __init__(self):
         self.ip = socket.gethostbyname(socket.gethostname())
+        self.id = getenv("ID")
         self.relogio = {}
         self.url = "http://server{}:5000?"
 
@@ -15,17 +16,17 @@ class Server(object):
             if variavel.startswith("id"):
                 self.relogio[variavel.split("=")[0]] = variavel.split("=")[1]
 
-    def obter_relogio(self):
+    def obter_qs_relogio(self):
         qs = ""
         if not self.relogio:
-            self.relogio = {"id1": "0", "id2": "0", "id3": "0", "id4": "0"}
+            self.relogio = {"id1": 0, "id2": 0, "id3": 0, "id4": 0}
         for chave, valor in sorted(self.relogio.items()):
             qs += "&{}={}".format(chave, valor)
         return qs
 
     def envia_acao(self, id_no, acao):
         # TODO melhorar mensagem de retorno
-        qs = self.obter_relogio()
+        qs = self.obter_qs_relogio()
         try:
             retorno = requests.get(self.url.format(id_no) + "acao=" + acao + qs, timeout=1)
             msg = "this is ok: {}".format(retorno)
