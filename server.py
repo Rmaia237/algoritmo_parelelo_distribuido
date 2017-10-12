@@ -47,7 +47,6 @@ class Server(object):
 
     def envia_acao(self, id_no, acao):
         self.incrementa_relogio_interno()
-        # TODO melhorar mensagem de retorno
         qs = self.obter_query_string_vetor_relogios()
         try:
             retorno = requests.get(self.url.format(id_no) + "acao=" + acao + qs, timeout=1)

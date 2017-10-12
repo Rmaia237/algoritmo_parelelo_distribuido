@@ -52,7 +52,6 @@ class TesteServer(unittest.TestCase):
         self.assertEqual(relogio_interno_obtido, relogio_interno_esperado)
 
     def teste_envia_com_falha(self):
-        # TODO melhorar mensagem de retorno
         id_no = "1"
         acao = "w3"
         retorno_esperado = "Failed to establish a new connection"
