@@ -6,8 +6,8 @@ services:
     container_name: server1
     ports:
      - "5001:5000"
-    #volumes:
-    # - .:/server
+    volumes:
+     - .:/server
   server2:
     build: .
     image: server
