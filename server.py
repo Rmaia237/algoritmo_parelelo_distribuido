@@ -7,6 +7,7 @@ class Server(object):
     def __init__(self):
         self.ip = socket.gethostbyname(socket.gethostname())
         self.relogio = {}
+        # TODO pegar ip de forma dinamica :(
         self.url = "http://172.38.0.{}:5000?"
 
     def obter_relogio(self):
