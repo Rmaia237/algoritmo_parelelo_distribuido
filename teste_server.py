@@ -9,6 +9,7 @@ from server import Server
 class TesteServer(unittest.TestCase):
     def setUp(self):
         self.id_no = 1
+        environ["ID"] = str(self.id_no)
         environ["NUM_SERVERS"] = "4"
         self.server = Server()
         self.server.id = self.id_no

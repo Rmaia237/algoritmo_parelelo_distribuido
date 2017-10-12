@@ -7,32 +7,38 @@ import requests
 class Server(object):
     def __init__(self):
         self.ip = socket.gethostbyname(socket.gethostname())
-        self.id = getenv("ID")
-        self.num_servers = getenv("NUM_SERVERS")
-        self.vetor_relogios = self.__inicializa_vetor_relogios()
-        self.url = "http://server{}:5000?"
+        self.id = int(getenv("ID"))
+        self.num_servers = getenv("NUM_SERVERS") if getenv("NUM_SERVERS") else 4
         self.valor_interno = 0
+        self.vetor_relogios = self.__inicializa_vetor_relogios()
+        self.vetor_valores = self.__inicializa_vetor_valores()
+        self.url = "http://server{}:5000?"
 
     def __inicializa_vetor_relogios(self):
-        if self.num_servers:
-            vetor = {}
-            for i in range(int(self.num_servers)):
-                vetor["id{}".format(i + 1)] = 0
-            return vetor
-        else:
-            return {"id1": 0, "id2": 0, "id3": 0, "id4": 0}
+        vetor = {}
+        for i in range(int(self.num_servers)):
+            vetor["id{}".format(i + 1)] = 0
+        return vetor
+
+    def __inicializa_vetor_valores(self):
+        vetor = []
+        for i in range(int(self.num_servers)):
+            vetor.append("-")
+        vetor[self.id - 1] = 0
+        return vetor
 
     def atualizar_vetor_relogios(self, query_string):
         variaveis = str(query_string).split("&")
         for variavel in variaveis:
             if variavel.startswith("id"):
-                no = int(variavel.split("=")[0].replace("id", ""))
+                # no = int(variavel.split("=")[0].replace("id", ""))
                 id_no = variavel.split("=")[0]
                 valor = int(variavel.split("=")[1])
-                if no == self.id:
-                    pass
-                else:
-                    self.vetor_relogios[id_no] = max([valor, self.vetor_relogios[id_no]])
+                # if no == self.id:
+                #     pass
+                # else:
+                #     self.vetor_relogios[id_no] = max([valor, self.vetor_relogios[id_no]])
+                self.vetor_relogios[id_no] = max([valor, self.vetor_relogios[id_no]])
 
     def obter_query_string_vetor_relogios(self):
         qs = ""
@@ -65,4 +71,13 @@ class Server(object):
             msg = str(self.valor_interno)
         else:
             msg = "nok"
+        return msg
+
+    def mostrar_valores(self):
+        msg = "#########\n"
+        msg += "IP: {}\n".format(self.ip)
+        msg += "ID: {}\n".format(self.id)
+        msg += "Valor: {}\n".format(self.valor_interno)
+        msg += "Valores: {}\n".format(self.vetor_valores)
+        msg += "Relogios: {}\n".format(self.vetor_relogios)
         return msg

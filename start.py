@@ -8,17 +8,12 @@ server = Server()
 
 @app.route('/', methods=['GET'])
 def ler_valores():
-    # TODO trocar pela implementacao real
-    msg = "#########\n"
-    msg += "IP: {}\n".format(server.ip)
-    msg += "ID: {}\n".format(server.id)
-    return msg
+    return server.mostrar_valores()
 
 
 @app.route('/', methods=['POST'])
-def escrever_valores():
-    # TODO trocar pela implementacao real
-    var = request.args.get('teste')
+def executar_acao():
+    var = request.args
     msg = "{}\n".format(var)
     for arg in request.args:
         msg += "arg -> {}\n".format(arg)
