@@ -73,7 +73,7 @@ class TesteServer(unittest.TestCase):
         retorno_esperado = "ok"
         retorno_obtido = self.server.recebe_acao(acao)
         valor_esperado = 3
-        valor_obtido = self.server.valor_interno
+        valor_obtido = self.server.vetor_valores[self.id_no - 1]
         relogio_interno_esperado = 1
         relogio_interno_obtido = self.server.vetor_relogios["id{}".format(self.id_no)]
         self.assertEqual(retorno_obtido, retorno_esperado)
@@ -82,10 +82,10 @@ class TesteServer(unittest.TestCase):
 
     def teste_recebe_acao_leitura(self):
         acao = "read"
-        retorno_esperado = "0"
+        retorno_esperado = "[0, '-', '-', '-']"
         retorno_obtido = self.server.recebe_acao(acao)
         valor_esperado = 0
-        valor_obtido = self.server.valor_interno
+        valor_obtido = self.server.vetor_valores[self.id_no - 1]
         relogio_interno_esperado = 1
         relogio_interno_obtido = self.server.vetor_relogios["id{}".format(self.id_no)]
         self.assertEqual(retorno_obtido, retorno_esperado)
@@ -97,12 +97,22 @@ class TesteServer(unittest.TestCase):
         retorno_esperado = "nok"
         retorno_obtido = self.server.recebe_acao(acao)
         valor_esperado = 0
-        valor_obtido = self.server.valor_interno
+        valor_obtido = self.server.vetor_valores[self.id_no - 1]
         relogio_interno_esperado = 1
         relogio_interno_obtido = self.server.vetor_relogios["id{}".format(self.id_no)]
         self.assertEqual(retorno_obtido, retorno_esperado)
         self.assertEqual(valor_obtido, valor_esperado)
         self.assertEqual(relogio_interno_obtido, relogio_interno_esperado)
+
+    @patch("server.Server.envia_acao")
+    def teste_escreve_valores(self, mock_server):
+        mock_server.return_value = "teste_retorno\n"
+        valores = [1, 2, 3, "-"]
+        valor_esperado = [1, 2, 3, "-"]
+        valor_obtido = self.server.vetor_valores
+        self.server.escreve_valores(valores)
+        mock_server.assert_called_with(3, 'w3')
+        self.assertEqual(valor_obtido, valor_esperado)
 
 
 if __name__ == '__main__':

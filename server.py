@@ -9,7 +9,6 @@ class Server(object):
         self.ip = socket.gethostbyname(socket.gethostname())
         self.id = int(getenv("ID"))
         self.num_servers = getenv("NUM_SERVERS") if getenv("NUM_SERVERS") else 4
-        self.valor_interno = 0
         self.vetor_relogios = self.__inicializa_vetor_relogios()
         self.vetor_valores = self.__inicializa_vetor_valores()
         self.url = "http://server{}:5000?"
@@ -65,10 +64,10 @@ class Server(object):
         self.incrementa_relogio_interno()
         if str(acao).startswith("w"):
             novo_valor = int(str(acao).replace("w", ""))
-            self.valor_interno = novo_valor
+            self.vetor_valores[self.id - 1] = novo_valor
             msg = "ok"
         elif str(acao).startswith("r"):
-            msg = str(self.valor_interno)
+            msg = str(self.vetor_valores)
         else:
             msg = "nok"
         return msg
@@ -77,7 +76,17 @@ class Server(object):
         msg = "#########\n"
         msg += "IP: {}\n".format(self.ip)
         msg += "ID: {}\n".format(self.id)
-        msg += "Valor: {}\n".format(self.valor_interno)
         msg += "Valores: {}\n".format(self.vetor_valores)
         msg += "Relogios: {}\n".format(self.vetor_relogios)
         return msg
+
+    def escreve_valores(self, valores):
+        for i in range(len(valores)):
+            if valores[i] != "-":
+                if i + 1 == self.id:
+                    print(valores[i])
+                    self.vetor_valores[self.id - 1] = valores[i]
+                else:
+                    self.envia_acao(i + 1, "w{}".format(valores[i]))
+            else:
+                pass
