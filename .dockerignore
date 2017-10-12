@@ -1,0 +1,5 @@
+.gitignore
+curl_container.sh
+docker-compose.yml
+Dockerfile
+README.md
