@@ -9,16 +9,17 @@ template = '\
       - "500{0}:5000"\n\
     environment:\n\
       - ID={0}\n\
+      - NUM_SERVERS={1}\n\
     volumes:\n\
       - .:/server\n\
 '
 
 
-def gera_compose_file(num_server):
+def gera_compose_file(num_servers):
     conteudo = "version: '3'\n"
     conteudo += "services:\n"
-    for i in range(num_server):
-        conteudo += template.format(i + 1)
+    for i in range(num_servers):
+        conteudo += template.format(i + 1, num_servers)
     with open("docker-compose.yml", "w", newline='\n') as compose:
         compose.write(conteudo)
 

@@ -8,6 +8,7 @@ services:
       - "5001:5000"
     environment:
       - ID=1
+      - NUM_SERVERS=4
     volumes:
       - .:/server
   server2:
@@ -18,6 +19,7 @@ services:
       - "5002:5000"
     environment:
       - ID=2
+      - NUM_SERVERS=4
     volumes:
       - .:/server
   server3:
@@ -28,6 +30,7 @@ services:
       - "5003:5000"
     environment:
       - ID=3
+      - NUM_SERVERS=4
     volumes:
       - .:/server
   server4:
@@ -38,5 +41,6 @@ services:
       - "5004:5000"
     environment:
       - ID=4
+      - NUM_SERVERS=4
     volumes:
       - .:/server
