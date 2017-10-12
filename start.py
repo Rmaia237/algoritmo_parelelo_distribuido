@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-from server.server import Server
+from server import Server
 
 app = Flask(__name__)
 server = Server()
