@@ -1,3 +1,5 @@
 Flask
 requests
 mock
+pylint
+coverage

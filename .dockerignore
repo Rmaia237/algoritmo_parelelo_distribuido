@@ -2,5 +2,5 @@
 curl_container.sh
 docker-compose.yml
 Dockerfile
-README.md
 gera_docker_compose_yml.py
+README.md

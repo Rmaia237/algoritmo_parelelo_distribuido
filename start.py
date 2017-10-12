@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-from server import Server
+from server.server import Server
 
 app = Flask(__name__)
 server = Server()
@@ -11,6 +11,7 @@ def ler_valores():
     # TODO trocar pela implementacao real
     msg = "#########\n"
     msg += "IP: {}\n".format(server.ip)
+    msg += "ID: {}\n".format(server.id)
     return msg
 
 
