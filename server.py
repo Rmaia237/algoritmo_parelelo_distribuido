@@ -30,9 +30,9 @@ class Server(object):
         variaveis = str(query_string).split("&")
         for variavel in variaveis:
             if variavel.startswith("id"):
-                # no = int(variavel.split("=")[0].replace("id", ""))
                 id_no = variavel.split("=")[0]
                 valor = int(variavel.split("=")[1])
+                # no = int(variavel.split("=")[0].replace("id", ""))
                 # if no == self.id:
                 #     pass
                 # else:
@@ -63,8 +63,8 @@ class Server(object):
     def recebe_acao(self, acao):
         self.incrementa_relogio_interno()
         if str(acao).startswith("w"):
-            novo_valor = int(str(acao).replace("w", ""))
-            self.vetor_valores[self.id - 1] = novo_valor
+            valores = str(acao).replace("w", "").split(",")
+            self.escreve_valores(valores)
             msg = "ok"
         elif str(acao).startswith("r"):
             msg = str(self.vetor_valores)
@@ -81,12 +81,11 @@ class Server(object):
         return msg
 
     def escreve_valores(self, valores):
-        for i in range(len(valores)):
-            if valores[i] != "-":
-                if i + 1 == self.id:
-                    print(valores[i])
-                    self.vetor_valores[self.id - 1] = valores[i]
-                else:
-                    self.envia_acao(i + 1, "w{}".format(valores[i]))
-            else:
-                pass
+        if len(valores) > 1:
+            for i in range(len(valores)):
+                if valores[i] != "-":
+                    self.vetor_valores[i] = int(valores[i])
+                    if i + 1 != self.id:
+                        self.envia_acao(i + 1, "w{}".format(valores[i]))
+        else:
+            self.vetor_valores[self.id - 1] = int(valores[0])

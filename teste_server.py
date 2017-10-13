@@ -68,14 +68,32 @@ class TesteServer(unittest.TestCase):
         valor_obtido = self.server.vetor_relogios
         self.assertEqual(valor_obtido, valor_esperado)
 
-    def teste_recebe_acao_escrita(self):
-        acao = "w3"
+    @patch("server.Server.envia_acao")
+    def teste_recebe_acao_escrita_varios_elementos(self, mock_envia_acao):
+        acao = "w1,2,-,3"
+        self.server.vetor_valores = [3, "-", 2, 1]
         retorno_esperado = "ok"
         retorno_obtido = self.server.recebe_acao(acao)
-        valor_esperado = 3
-        valor_obtido = self.server.vetor_valores[self.id_no - 1]
+        valor_esperado = [1, 2, 2, 3]
+        valor_obtido = self.server.vetor_valores
         relogio_interno_esperado = 1
         relogio_interno_obtido = self.server.vetor_relogios["id{}".format(self.id_no)]
+        mock_envia_acao.assert_called_with(4, 'w3')
+        self.assertEqual(retorno_obtido, retorno_esperado)
+        self.assertEqual(valor_obtido, valor_esperado)
+        self.assertEqual(relogio_interno_obtido, relogio_interno_esperado)
+
+    @patch("server.Server.envia_acao")
+    def teste_recebe_acao_escrita_um_elemento(self, mock_envia_acao):
+        acao = "w1"
+        self.server.vetor_valores = [3, "-", 2, 1]
+        retorno_esperado = "ok"
+        retorno_obtido = self.server.recebe_acao(acao)
+        valor_esperado = [1, "-", 2, 1]
+        valor_obtido = self.server.vetor_valores
+        relogio_interno_esperado = 1
+        relogio_interno_obtido = self.server.vetor_relogios["id{}".format(self.id_no)]
+        mock_envia_acao.assert_not_called()
         self.assertEqual(retorno_obtido, retorno_esperado)
         self.assertEqual(valor_obtido, valor_esperado)
         self.assertEqual(relogio_interno_obtido, relogio_interno_esperado)
@@ -105,13 +123,12 @@ class TesteServer(unittest.TestCase):
         self.assertEqual(relogio_interno_obtido, relogio_interno_esperado)
 
     @patch("server.Server.envia_acao")
-    def teste_escreve_valores(self, mock_server):
-        mock_server.return_value = "teste_retorno\n"
+    def teste_escreve_valores(self, mock_envia_acao):
         valores = [1, 2, 3, "-"]
         valor_esperado = [1, 2, 3, "-"]
         valor_obtido = self.server.vetor_valores
         self.server.escreve_valores(valores)
-        mock_server.assert_called_with(3, 'w3')
+        mock_envia_acao.assert_called_with(3, 'w3')
         self.assertEqual(valor_obtido, valor_esperado)
 
 
