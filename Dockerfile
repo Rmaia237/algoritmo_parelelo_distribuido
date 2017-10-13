@@ -1,15 +1,16 @@
 FROM centos
 
+COPY requirements.txt /
+
 RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && \
     python get-pip.py && \
-    rm get-pip.py
+    rm get-pip.py && \
+    pip install --user -r requirements.txt
 
-COPY . /server
+COPY *.py /server/
 WORKDIR /server
-
-RUN pip install --user -r requirements.txt
 
 EXPOSE 5000
 
 ENTRYPOINT ["python"]
-CMD ["start.py"]
+CMD ["-u", "start.py"]
