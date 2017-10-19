@@ -1,4 +1,5 @@
 .gitignore
+.idea
 curl_container.sh
 docker-compose.yml
 Dockerfile
