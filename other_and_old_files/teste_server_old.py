@@ -3,7 +3,7 @@ from os import environ
 
 from mock import patch
 
-from server import Server
+from other_and_old_files.server import Server
 
 
 class TesteServer(unittest.TestCase):

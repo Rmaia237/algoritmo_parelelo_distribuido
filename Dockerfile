@@ -1,11 +1,4 @@
-FROM centos
-
-COPY requirements.txt /
-
-RUN curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && \
-    python get-pip.py && \
-    rm get-pip.py && \
-    pip install --user -r requirements.txt
+FROM python:3-alpine
 
 COPY *.py /server/
 WORKDIR /server
