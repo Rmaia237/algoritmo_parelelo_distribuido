@@ -10,7 +10,7 @@ services:
       - ID=1
       - NUM_SERVERS=4
     volumes:
-      - .:/server
+      - .:/usr/src/app
   server2:
     build: .
     image: server
@@ -21,7 +21,7 @@ services:
       - ID=2
       - NUM_SERVERS=4
     volumes:
-      - .:/server
+      - .:/usr/src/app
   server3:
     build: .
     image: server
@@ -32,7 +32,7 @@ services:
       - ID=3
       - NUM_SERVERS=4
     volumes:
-      - .:/server
+      - .:/usr/src/app
   server4:
     build: .
     image: server
@@ -43,4 +43,4 @@ services:
       - ID=4
       - NUM_SERVERS=4
     volumes:
-      - .:/server
+      - .:/usr/src/app

@@ -11,7 +11,7 @@ template = '\
       - ID={0}\n\
       - NUM_SERVERS={1}\n\
     volumes:\n\
-      - .:/server\n\
+      - .:/usr/src/app\n\
 '
 
 
