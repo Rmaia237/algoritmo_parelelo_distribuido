@@ -10,4 +10,4 @@ WORKDIR /usr/src/app
 COPY *.py ./
 
 ENTRYPOINT ["python"]
-CMD ["-u", "./start.py"]
+CMD ["-u", "./servidor.py"]
