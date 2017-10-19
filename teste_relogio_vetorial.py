@@ -13,7 +13,7 @@ class TesteRelogioVetorial(TestCase):
     def teste_incrementar(self):
         relogio_zerado = [0, 0, 0, 0]
         indice = 2
-        valor_esperado = [0, 0, 1, 0]
+        valor_esperado = [0, 1, 0, 0]
         valor_obtido = relogio_vetorial.incrementar(relogio_zerado, indice)
         self.assertEqual(valor_esperado, valor_obtido)
 

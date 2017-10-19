@@ -3,7 +3,7 @@ def obter_relogio_vetorial(num_servidores):
 
 
 def incrementar(relogio_vetorial, indice):
-    relogio_vetorial[indice] += 1
+    relogio_vetorial[indice - 1] += 1
     return relogio_vetorial
 
 
@@ -20,7 +20,6 @@ def eh_anterior(relogio_local, outro_relogio):
             retorno = True
             break
     return retorno
-
 
 # def eh_concorrente(relogio_local, outro_relogio):
 #     return not eh_anterior(relogio_local, outro_relogio) and not eh_anterior(outro_relogio, relogio_local)
