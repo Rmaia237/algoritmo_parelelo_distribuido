@@ -1,7 +1,7 @@
 from os import environ
 from unittest import TestCase, main
 
-from servidor import Server
+from servidor import Servidor
 
 
 class TesteServidor(TestCase):
@@ -10,7 +10,7 @@ class TesteServidor(TestCase):
         environ["NUM_SERVERS"] = "5"
 
     def teste_inicializar_servidor_com_variaveis_ambiente(self):
-        servidor = Server()
+        servidor = Servidor()
         id_esperado = 2
         id_obtido = servidor.id
         num_servidores_esperado = 5
@@ -23,7 +23,7 @@ class TesteServidor(TestCase):
 
     def teste_inicializar_servidor_sem_num_servidores(self):
         del environ["NUM_SERVERS"]
-        servidor = Server()
+        servidor = Servidor()
         num_servidores_esperado = 4
         num_servidores_obtido = servidor.num_servidores
         self.assertEqual(num_servidores_esperado, num_servidores_obtido)
