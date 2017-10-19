@@ -1,7 +1,7 @@
 from socket import socket, AF_INET, SOCK_STREAM
 from threading import Thread
 
-from other_and_old_files.server import Server
+from servidor import Servidor
 
 
 def retorna_query_string(resposta):
@@ -11,7 +11,7 @@ def retorna_query_string(resposta):
 def conectado(conexao):
     resposta = str(conexao.recv(1024))
     retorna_query_string(resposta)
-    print(server.mostrar_valores())
+    print(server.obter_valores())
     # print("Resposta: {}\n".format(resposta))
     conexao.send("Conexao estabelecida\n")
     conexao.close()
@@ -20,7 +20,7 @@ def conectado(conexao):
 ip = "0.0.0.0"
 porta = 5000
 
-server = Server()
+server = Servidor()
 
 tcp = socket(AF_INET, SOCK_STREAM)
 tcp.bind((ip, porta))
