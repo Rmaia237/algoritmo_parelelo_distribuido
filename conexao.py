@@ -2,44 +2,35 @@ from socket import socket, AF_INET, SOCK_STREAM
 from threading import Thread
 
 
-def conectado(conexao):
-    resposta = str(conexao.recv(1024))
-    print(server.obter_valores())
-    print("Tipo: {}\n".format(type(resposta)))
-    print("Resposta: {}\n".format(resposta))
-    conexao.send("Conexao estabelecida\n".encode())
-    conexao.close()
+class Conexao(object):
+    def __init__(self):
+        self.ip = "0.0.0.0"
+        self.porta = 5000
+        self.tcp = socket(AF_INET, SOCK_STREAM)
 
+    def prepara_conexao(self):
+        self.tcp.bind((self.ip, self.porta))
+        self.tcp.listen(3)
+        print("Ouvindo em {}:{}\n".format(self.ip, self.porta))
 
-def envia_mensagem():
-    socket_id = socket()
-    socket_id.connect(("server2", 5000))
-    msg = "{}|{}".format(server.id, server.relogio_interno)
-    print("msg: '{}'".format(msg))
-    socket_id.send(msg.encode())
-    socket_id.close()
-    return 0
-
-
-def conexao():
-    ip = "0.0.0.0"
-    porta = 5000
-
-    # server = Servidor()
-    server = ""
-
-    tcp = socket(AF_INET, SOCK_STREAM)
-    tcp.bind((ip, porta))
-    tcp.listen(3)
-    print("Server ID: {}".format(server.id))
-    print("Ouvindo em {}:{}\n".format(ip, porta))
-
-    enviar = True
-    while True:
-        if enviar and server.id == 1:
-            envia_mensagem()
-            enviar = False
-        con, origem = tcp.accept()
+    def conecta(self):
+        conexao, origem = self.tcp.accept()
         print("Conexao recebida por: {}:{}\n".format(origem[0], origem[1]))
-        thread = Thread(target=conectado, args=(con,))
+        thread = Thread(target=self.recebe_conexao, args=(conexao,))
         thread.start()
+
+    @staticmethod
+    def recebe_conexao(conexao):
+        resposta = str(conexao.recv(1024))
+        print(resposta)
+        conexao.send("Conexao estabelecida\n".encode())
+        conexao.close()
+
+    @staticmethod
+    def envia_mensagem(id_servidor, msg):
+        socket_id = socket()
+        socket_id.connect(("server{}".format(id_servidor), 5000))
+        print("msg: '{}'".format(msg))
+        socket_id.send(msg.encode())
+        socket_id.close()
+        return 0

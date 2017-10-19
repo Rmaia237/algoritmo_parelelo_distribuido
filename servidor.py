@@ -3,6 +3,7 @@ from os import getenv
 
 import relogio_vetorial
 import vetor_valores
+from conexao import Conexao
 
 
 class Servidor(object):
@@ -26,15 +27,16 @@ class Servidor(object):
         self.relogio_interno = relogio_vetorial.incrementar(self.relogio_interno, self.id)
 
     def start(self):
+        conexao = Conexao()
+        conexao.prepara_conexao()
+
         enviar = True
         while True:
-            if enviar and server.id == 1:
-                envia_mensagem()
+            if enviar and self.id == 1:
+                msg = "{}|{}".format(self.id, self.relogio_interno)
+                Conexao.envia_mensagem(2, msg)
                 enviar = False
-            con, origem = tcp.accept()
-            print("Conexao recebida por: {}:{}\n".format(origem[0], origem[1]))
-            thread = Thread(target=conectado, args=(con,))
-            thread.start()
+            conexao.conecta()
 
 
 if __name__ == '__main__':
