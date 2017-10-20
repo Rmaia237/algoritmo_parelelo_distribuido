@@ -19,33 +19,6 @@ class Servidor(object):
         self.relogio_interno = relogio_vetorial.obter_relogio_vetorial(self.num_servidores)
         self.vetor_valores = vetor_valores.obter_vetor_valores(self.num_servidores, self.id)
 
-    def prepara_conexao(self):
-        self.tcp.bind((self.ip, self.porta))
-        self.tcp.listen(3)
-        print("Ouvindo em {}:{}\n".format(self.ip, self.porta))
-
-    def conecta(self):
-        conexao, origem = self.tcp.accept()
-        print("Conexao recebida por: {}:{}\n".format(origem[0], origem[1]))
-        thread = Thread(target=self.recebe_conexao, args=(conexao,))
-        thread.start()
-
-    @staticmethod
-    def recebe_conexao(conexao):
-        resposta = str(conexao.recv(1024))
-        print(resposta)
-        conexao.send("Conexao estabelecida\n".encode())
-        conexao.close()
-
-    @staticmethod
-    def envia_mensagem(id_servidor, msg):
-        socket_id = socket()
-        socket_id.connect(("server{}".format(id_servidor), 5000))
-        print("msg: '{}'".format(msg))
-        socket_id.send(msg.encode())
-        socket_id.close()
-        return 0
-
     def obter_valores(self):
         msg = "ID: {}\n".format(self.id)
         msg += "URL: {}\n".format(self.url)
@@ -60,6 +33,42 @@ class Servidor(object):
 
     def incrementar_relogio(self):
         self.relogio_interno = relogio_vetorial.incrementar(self.relogio_interno, self.id)
+
+    ##############
+    # parte da classe sem cobertura de testes
+    ##############
+    def prepara_conexao(self):
+        self.tcp.bind((self.ip, self.porta))
+        self.tcp.listen(3)
+        print("Ouvindo em {}:{}".format(self.ip, self.porta))
+
+    def conecta(self):
+        conexao, origem = self.tcp.accept()
+        print("Conexao recebida por: {}:{}".format(origem[0], origem[1]))
+        thread = Thread(target=self.recebe_conexao, args=(conexao,))
+        thread.start()
+
+    def recebe_conexao(self, conexao):
+        resposta = conexao.recv(1024).decode("utf-8")
+        id_servidor, relogio = resposta.split("|")
+        self.recebe_mensagem(id_servidor, relogio)
+        # conexao.send("Conexao estabelecida".encode())
+        conexao.close()
+
+    def recebe_mensagem(self, id_servidor, relogio):
+        print("Mensagem recebida do server{}".format(id_servidor))
+        print("Com o relogio: {}".format(relogio))
+        self.atualizar_relogio(relogio)
+        print("Entao atualizo meu relogio: {}".format(self.relogio_interno))
+
+    @staticmethod
+    def envia_mensagem(id_servidor, msg):
+        socket_id = socket()
+        socket_id.connect(("server{}".format(id_servidor), 5000))
+        print("Enviando mensagem: '{}'".format(msg))
+        socket_id.send(msg.encode())
+        socket_id.close()
+        return 0
 
     def start(self):
         self.prepara_conexao()
