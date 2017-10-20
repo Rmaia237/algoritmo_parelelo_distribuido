@@ -9,8 +9,6 @@ services:
     environment:
       - ID=1
       - NUM_SERVERS=4
-    volumes:
-      - .:/usr/src/app
   server2:
     build: .
     image: server
@@ -20,8 +18,6 @@ services:
     environment:
       - ID=2
       - NUM_SERVERS=4
-    volumes:
-      - .:/usr/src/app
   server3:
     build: .
     image: server
@@ -31,8 +27,6 @@ services:
     environment:
       - ID=3
       - NUM_SERVERS=4
-    volumes:
-      - .:/usr/src/app
   server4:
     build: .
     image: server
@@ -42,5 +36,3 @@ services:
     environment:
       - ID=4
       - NUM_SERVERS=4
-    volumes:
-      - .:/usr/src/app

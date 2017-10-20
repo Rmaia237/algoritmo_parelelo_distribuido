@@ -10,9 +10,10 @@ template = '\
     environment:\n\
       - ID={0}\n\
       - NUM_SERVERS={1}\n\
-    volumes:\n\
-      - .:/usr/src/app\n\
 '
+# '    volumes:\n\
+#       - .:/usr/src/app\n\
+# '
 
 
 def gera_compose_file(num_servers):
