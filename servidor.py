@@ -24,6 +24,9 @@ class Servidor(object):
 
     def atualizar_relogio(self, relogio_str):
         self.relogio_interno = relogio_vetorial.atualizar(self.relogio_interno, loads(relogio_str))
+        self.incrementar_relogio()
+
+    def incrementar_relogio(self):
         self.relogio_interno = relogio_vetorial.incrementar(self.relogio_interno, self.id)
 
     def start(self):
@@ -33,6 +36,7 @@ class Servidor(object):
         enviar = True
         while True:
             if enviar and self.id == 1:
+                self.incrementar_relogio()
                 msg = "{}|{}".format(self.id, self.relogio_interno)
                 Conexao.envia_mensagem(2, msg)
                 enviar = False

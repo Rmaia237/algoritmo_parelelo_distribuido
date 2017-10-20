@@ -45,6 +45,13 @@ class TesteServidor(TestCase):
         valor_obtido = servidor.relogio_interno
         self.assertEqual(valor_esperado, valor_obtido)
 
+    def teste_incrementar_relogio_interno(self):
+        servidor = Servidor()
+        servidor.relogio_interno = [1, 2, 3, 4]
+        servidor.incrementar_relogio()
+        valor_esperado = [1, 3, 3, 4]
+        valor_obtido = servidor.relogio_interno
+        self.assertEqual(valor_esperado, valor_obtido)
 
 
 if __name__ == '__main__':
